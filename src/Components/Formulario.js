@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Alert from '@material-ui/lab/Alert';
+import uuid from 'uuid/v4';
 
 const Formulario = () => {
     // State citas
@@ -10,15 +12,52 @@ const Formulario = () => {
         sintomas: '',
     });
 
+    const [error, actualizarError] = useState(false)
+
+    const [success, actualizarSuccess] = useState(false)
+
     // Ejecuta cuando el usuario escribe un input
-    const actualizarState = () => {
-        console.log("escribiendo")
+    const actualizarState = (e) => {
+        actualizarCita({
+            ...cita, // copia a la instancia para que se actualize
+            [e.target.name]:e.target.value  
+        })
     }
+
+    // Valores
+    const { mascota, propietario, fecha, hora, sintomas } = cita;
+
+    // Enviar formulario
+    const submitCita = (e) => {
+        e.preventDefault();
+        // Validación
+        if(mascota.trim() === "" || propietario.trim() === "" || fecha.trim() === "" || hora.trim() === "" || sintomas.trim() === "") {
+            actualizarError(true);
+            return;
+        } 
+        // Eliminar mnsj error
+        actualizarError(false);
+        if(mascota.trim() !== "" || propietario.trim() !== "" || fecha.trim() !== "" || hora.trim() !== "" || sintomas.trim() !== "") {
+            actualizarSuccess(true);
+            return;
+        }
+
+        // Id
+        cita.id = uuid();
+        console.log(cita);
+        // Crear cita
+
+        // Reset form
+    }
+
+{/* <Alert severity="success" className="fs-15 mb-10"><strong>Success: </strong>Formulario enviado con éxito.</Alert> */}
 
     return ( 
         <div>
             <h2>Crear Cita</h2>
-            <form>
+            <form
+                onSubmit={submitCita}
+            >
                 <label>Nombre Mascota</label>
                 <input
                     type="text"
@@ -26,6 +65,7 @@ const Formulario = () => {
                     className="u-full-widht"
                     placeholder="Nombre Mascota"
                     onChange={actualizarState}
+                    value={mascota}
                 />
                 <label>Nombre del dueño</label>
                 <input
@@ -34,6 +74,7 @@ const Formulario = () => {
                     className="u-full-widht"
                     placeholder="Nombre del dueño"
                     onChange={actualizarState}
+                    value={propietario}
                 />
                 <label>Fecha</label>
                 <input
@@ -41,6 +82,7 @@ const Formulario = () => {
                     name="fecha"
                     className="u-full-widht"
                     onChange={actualizarState}
+                    value={fecha}
                 />
                 <label>Hora</label>
                 <input
@@ -48,17 +90,21 @@ const Formulario = () => {
                     name="hora"
                     className="u-full-widht"
                     onChange={actualizarState}
+                    value={hora}
                 />
                 <label>Síntomas</label>
                 <textarea
                     className="u-full-width"
                     name="sintomas"
                     onChange={actualizarState}
+                    value={sintomas}
                 ></textarea>
+                {error ? <Alert severity="error" className="fs-15 mb-10"><strong>Error: </strong>Todos los campos son obligatorios</Alert> : null}
                 <button
                     type="submit"
                     className="u-full-width button-primary"
                 >Agregar Cita</button>
+                {success ? <Alert severity="success" className="fs-15 mb-10"><strong>Success: </strong>Formulario enviado con éxito.</Alert> : null}
             </form>
         </div>
      );

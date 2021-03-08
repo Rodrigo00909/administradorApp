@@ -58,7 +58,7 @@ h1, h2  {
 }
 
 label {
-  color: white;
+  color: rgb(77, 77, 77);
 }
 
 input[type="text"] {

@@ -64,21 +64,21 @@ const Formulario = ({crearCita}) => {
             <form
                 onSubmit={submitCita}
             >
-                <label>Nombre</label>
+                <label>Nombre Mascota</label>
                 <input
                     type="text"
                     name="mascota"
                     className="u-full-widht"
-                    placeholder="Nombre"
+                    placeholder="Nombre Mascota"
                     onChange={actualizarState}
                     value={mascota}
                 />
-                <label>Apellido</label>
+                <label>Nombre del dueño</label>
                 <input
                     type="text"
                     name="propietario"
                     className="u-full-widht"
-                    placeholder="Apellido"
+                    placeholder="Nombre del dueño"
                     onChange={actualizarState}
                     value={propietario}
                 />
